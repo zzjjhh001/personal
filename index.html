@@ -1,159 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>抽奖</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta charset="UTF-8">
+<title>纯CSS实现鼠标经过3D立体动态展示图片特效代码</title>
+<link type="text/css" href="css/style.css" rel="stylesheet" />
 </head>
-<style>
-	.game{
-		width: 100%;
-		height: 320px;
-		text-align: center;
-		margin-top: 0 auto; 
-	}
-	.turntable{
-		width: 310px;
-		height: 320px;
-		margin-top: 0 auto;
-	}
-	.gift{
-	    width: 100px;
-	    height: 100px;
-	    border: 1px solid yellowgreen;
-	    float: left;
-	    font-size: 14px;
-	    font-weight: bold;
-	    text-align: center;
-	    line-height: 100px;
-        background-color: azure;
-    	color: cadetblue;
-	}
-	.gift:nth-child(5){
-		background-color: transparent;
-	}
-	.start{
-		width: 80%;
-	    display: inline-block;
-	    margin-top: 15px;
-	    margin-bottom: 10px;
-	    vertical-align: middle;
-	    color: rgb(255, 255, 255);
-	    background-color: rgb(233, 104, 107);
-	    text-align: center;
-	    cursor: pointer;
-	    white-space: nowrap;
-	    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 6px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-	    font-family: 微软雅黑;
-	    border-width: initial;
-	    border-style: none;
-	    border-color: initial;
-	    border-image: initial;
-	    outline: 0px;
-	    padding: 8px 18px;
-	    overflow: hidden;
-	    text-decoration: none;
-	    transition: all 0.2s ease-out 0s;
-	    border-radius: 2px;
-	}
-	.selected{
-		border:1px solid transparent;
-		box-shadow: 0 0 5px 2px red;
-		position:relative;
-		background-color: antiquewhite;
-	}
-</style>
-<body >
-	<div class="game" >
-		<div class="turntable"style="position: absolute;left: 50%;transform:translateX(-50%)"  >
-          			<div class="gift"><img src="images/MAC314.jpg" alt="MAC#314"></img></div>
-			<div class="gift">随机金额红包</div>
-			<div class="gift"><image src="images/MAC316.jpg" alt="MAC#316"></div>
-			<div class="gift"><image src="images/amani400.jpg" alt="阿玛尼#400"></div>
-			<div class="gift"><image src="images/touxiang.jpg" alt="季夏的头像"></div>
-			<div class="gift"><image src="images/yanyingpan.jpg" alt="眼影盘"></div>
-			<div class="gift"><image src="images/MAC314.jpg" alt="MAC#314"></div>
-			<div class="gift">谢谢参与</div>
-			<div class="gift"><image src="images/MAC316.jpg" alt="MAC#316"></div>
-			<button type="button" class="start" onclick="start()">我要礼物</button>
-		</div>
-	</div>
+<body>
+<div class="box">
+	<ul class="minbox">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<ol class="maxbox">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ol>
+</div>
 </body>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>  
-
-<script>
-	var gift;
-	var cishu=3;
-	var x=0;
-	//可修改ArrList以定义每一奖项中奖概率;
-	var ArrList=[30,38,22,22,22,22,22,22,22,22,22]; 
-	//position用于定位每一个抽奖格;
-	var position=[0,1,2,5,8,7,6,3];
-	var money=[1.88,5.20,6.66,8.88,13.14,66.66,88.88,99.99,100];
-
-	function start(){
-		if(cishu-->0){
-			var initial=getArrayItems(ArrList,1);
-			for (var i = 0; i < initial; i++) {
-				setTimeout(()=>{
-					$('.gift').removeClass("selected");
-					gift=$('.gift:eq('+ position[(x%8)] +')');
-					gift.addClass('selected');
-					x++;
-					if (x==initial) {setTimeout(()=>{
-						if (position[(x%8)]==2) {
-							randmoney();
-						}else{
-							alert('没有中大奖再试一次吧'+'\n还有'+cishu+'次抽奖机会');
-						}
-						console.log(position[(x%8)]);
-						x=0;
-					},10)}
-				},i*150);
-			}
-		}else{
-			alert('抽奖次数已用完');
-		}
-	}
-
-	function randmoney(){
-		for (var i = 0; i < 15; i++) {
-			setTimeout(()=>{
-				$('.gift:eq(1)').text(getArrayItems(money,1));
-				x++;
-				if (x==15) {x=0;setTimeout(()=>{
-                    console.log($('.gift:eq(1)').text()+"元");
-					alert('恭喜获得红包：'+$('.gift:eq(1)').text()+"元"+'\n还有'+cishu+'次抽奖机会');
-					$('.gift:eq(1)').text('随机金额红包');
-				},1)}
-			},i*100);
-
-		};
-	}
-
-	function getArrayItems(arr, num) {
-	    //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
-	    var temp_array = new Array();
-	    for (var index in arr) {
-	        temp_array.push(arr[index]);
-	    }
-	    //取出的数值项,保存在此数组
-	    var return_array = new Array();
-	    for (var i = 0; i<num; i++) {
-	        //判断如果数组还有可以取出的元素,以防下标越界
-	        if (temp_array.length>0) {
-	            //在数组中产生一个随机索引
-	            var arrIndex = Math.floor(Math.random()*temp_array.length);
-	            //将此随机索引的对应的数组元素值复制出来
-	            return_array[i] = temp_array[arrIndex];
-	            //然后删掉此索引的数组元素,这时候temp_array变为新的数组
-	            temp_array.splice(arrIndex, 1);
-	        } else {
-	            //数组中数据项取完后,退出循环,比如数组本来只有10项,但要求取出20项.
-	            break;
-	        }
-	    }
-	    return return_array;
-	}
-</script>
 </html>
